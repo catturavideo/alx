@@ -373,6 +373,8 @@ static void alx_reset_osc(struct alx_hw *hw, u8 rev)
 	udelay(20);
 }
 
+// 11 May 2017: patched to match version from
+// https://github.com/mcgrof/alx/blob/master/src/alx_hw.c#L439
 static int alx_stop_mac(struct alx_hw *hw)
 {
 	u32 rxq, txq, val;
@@ -391,11 +393,11 @@ static int alx_stop_mac(struct alx_hw *hw)
 	for (i = 0; i < ALX_DMA_MAC_RST_TO; i++) {
 		val = alx_read_mem32(hw, ALX_MAC_STS);
 		if (!(val & ALX_MAC_STS_IDLE))
-			return 0;
+			break;
 		udelay(10);
 	}
 
-	return -ETIMEDOUT;
+	return (ALX_DMA_MAC_RST_TO == i) ? ALX_ERR_RSTMAC : 0;
 }
 
 int alx_reset_mac(struct alx_hw *hw)

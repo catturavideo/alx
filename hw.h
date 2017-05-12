@@ -581,4 +581,8 @@ static inline u32 alx_speed_to_ethadv(int speed, u8 duplex)
 	return 0;
 }
 
+// 11 May 2017: Error definitions taken from
+// https://github.com/erikarn/alx/blob/master/src/alx_hw.h#L20
+#define ALX_ERR_RSTMAC 0x0002
+
 #endif
